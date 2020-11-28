@@ -309,7 +309,7 @@ function display_list_name($listId, $email, $option) {
     echo '<div class="list-name">';
     if ($option == 1) {
         if ($name = mysqli_fetch_array($result)) {
-            echo "<h1 onClick='showList(this)' id={$listId}>".str_replace($email.'_', '', $name[0]).'<i class="far fa-hand-pointer"></i></h1><i class="far fa-trash-alt fa-lg" onClick="deleteList('.$listId.',\''.$name[0].'\')"></i>';
+            echo "<h1 onClick='showList(this)' id={$listId}>".str_replace($email.'_', '', $name[0]).'</h1><i class="far fa-trash-alt fa-lg" onClick="deleteList('.$listId.',\''.$name[0].'\')"></i><i class="fas fa-user-plus" onClick="modalAddListOwner('.$listId.')"></i>';
         }
     } else if ($option == 0) {
         if ($name = mysqli_fetch_array($result)) {
@@ -417,8 +417,22 @@ function check_list_name($listName) {
             return true;
         } elseif ($data[0] == '1') {
             return false;
-        }
-    }
+        };
+    };
+};
+
+function add_subowner($listId, $email) {
+    require 'config.inc.php';
+
+    $result = mysqli_query($conn, "SELECT id_user FROM users WHERE email = '$email'");
+
+    if ($subowner = mysqli_fetch_array($result)) {
+        $sql = "CALL add_subowner($listId, $subowner[0])";
+        mysqli_query($conn, $sql);
+        display_warning_message('Subowner added successfully.');
+    } else {
+        display_warning_message('Email not found. Make sure user have an account in our service.');
+    };
 };
 
 function error_handler($error) {

@@ -83,7 +83,8 @@ nav #login h1:hover {
 .add-list div:nth-child(1),
 .add-account div:nth-child(1),
 .login-form div:nth-child(1),
-.list-detail div:nth-child(1) p {
+.list-detail div:nth-child(1) p,
+.additional-owner-field {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
@@ -114,7 +115,8 @@ nav #login h1:hover {
 .create-account-field,
 .password-hint-field,
 .list-owners-hint-field,
-.login-field {
+.login-field,
+.additional-owner-field {
 	background: #ffdccc;
 	height: 50px;
 	width: 575px;
@@ -150,7 +152,8 @@ nav #login h1:hover {
 .email-address-field i,
 .password-field i,
 .create-account-field i,
-.list-name i {
+.list-name i,
+.additional-owner-field i {
 	padding: 10px;
 }
 
@@ -163,7 +166,8 @@ nav #login h1:hover {
 .password-field input,
 .create-account-field input,
 .login-field input,
-.list-article input {
+.list-article input,
+.additional-owner-field input {
 	background: none;
 	outline: none;
 	border: none;
@@ -234,7 +238,8 @@ nav #login h1:hover {
 .add-list .create-list-field:not(.div-disabled) p:hover,
 .add-account .create-account-field.valid input:hover,
 .login-section .login-field.valid input:hover,
-.modal.addArticleToList .submit-field:hover {
+.modal.addArticleToList .submit-field:hover,
+.modal.additionalListOwner .submit-field:hover {
 	cursor: pointer;
 	background: #e1f9eb;
 }
@@ -284,12 +289,12 @@ select:focus {
 .fa-user,
 .fa-eye,
 .fa-eye-slash,
-.fa-hand-pointer,
 .fa-shopping-basket,
 .fa-edit,
 .fa-times,
 .fa-plus-square,
-.fa-trash-alt {
+.fa-trash-alt,
+.fa-at {
 	color: #fb6376;
 }
 
@@ -337,13 +342,15 @@ select:focus {
 	padding: 3px;
 }
 
-.modal.addArticleToList .modal-content .fas.fa-times {
+.modal.addArticleToList .modal-content .fas.fa-times,
+.modal.additionalListOwner .modal-content .fas.fa-times {
 	position: absolute;
 	top: 25px;
 	left: 95%;
 }
 
-.modal.addArticleToList .modal-content input {
+.modal.addArticleToList .modal-content input,
+.modal.additionalListOwner .modal-content input {
 	width: 20px;
 }
 
@@ -418,12 +425,14 @@ section.my-lists {
 	background: #e1f9eb;
 }
 
-.modal.confirmation .modal-content {
+.modal.confirmation .modal-content,
+.modal.additionalListOwner form {
 	flex-direction: column;
 }
 
 .modal.addArticleToList,
-.modal.confirmation {
+.modal.confirmation,
+.modal.additionalListOwner {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -435,7 +444,8 @@ section.my-lists {
 }
 
 .modal.addArticleToList .modal-content,
-.modal.confirmation .modal-content {
+.modal.confirmation .modal-content,
+.modal.additionalListOwner .modal-content {
 	background: #ffcdb2;
 	height: 60%;
 	width: 80%;

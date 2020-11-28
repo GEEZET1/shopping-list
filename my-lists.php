@@ -51,4 +51,22 @@ require_once './inc/functions.inc.php';
             <p>Action performed successfully.</p>
         </div>
     </div>
+
+    <div class="modal additionalListOwner">
+        <div class="modal-content">
+            <i class="fas fa-times fa-3x" onClick="hideModal('additionalListOwner')"></i>
+
+            <form>
+                <p><i class="fas fa-exclamation"></i>Owner must have account in our service first.</p>
+
+                <div class="additional-owner-field">
+                    <i class="fas fa-at"></i><input type="email" placeholder="Subowner's email address">
+                </div>
+
+                <div class="submit-field" onClick="addListOwner(this)">
+                    <p name="add-article">Add subowner</p>
+                </div>
+            </form>
+        </div>
+    </div>
 </section>

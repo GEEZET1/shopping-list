@@ -1,5 +1,6 @@
 <?php
 require_once './functions.inc.php';
+require 'config.inc.php';
 
 if (isset($_GET['listName']) && isset($_GET['create-list'])) {
     if (check_if_field_is_empty($_GET)) {
@@ -28,15 +29,17 @@ if (isset($_GET['listName']) && isset($_GET['create-list'])) {
     } else {
         display_warning_message('An error ocured. Try again.');
     }
-} else if(isset($_GET['listId']) && isset($_GET['update-total-value'])) {
+} else if (isset($_GET['listId']) && isset($_GET['update-total-value'])) {
     display_list_value($_GET['listId']);
-} else if(isset($_GET['listId']) && isset($_GET['delete-list'])) {
+} else if (isset($_GET['listId']) && isset($_GET['delete-list'])) {
     delete_list($_GET['listId']);
+} else if (isset($_GET['listId']) && isset($_GET['emailAddress']) && isset($_GET['add-subowner'])) {
+    add_subowner($_GET['listId'], $_GET['emailAddress']);
 } else if (isset($_GET['categoryId'])) {
     display_articles_select($_GET['categoryId']);
 } else if (isset($_GET['articleId'])) {
     display_units_select($_GET['articleId']);
 } else {
-    display_warning_message('An error ocured. Try again.');
+    display_warning_message("An error ocured. Try again.");
 };
 

@@ -375,5 +375,35 @@ function deleteList(listId, listName) {
 	}
 }
 
+function modalAddListOwner(listId) {
+	document
+		.querySelector(`.modal.additionalListOwner`)
+		.classList.add('modal-open');
+
+	setTimeout(() => {
+		document.querySelector(
+			'.modal.additionalListOwner.modal-open div.modal-content form div.submit-field'
+		).id = listId; // dodanie atrybutu id o wartości numeru id listy do przycisku
+	}, 100);
+}
+
+function addListOwner(button) {
+	var listId = button.id;
+	var email = button.previousElementSibling.children[1];
+
+	if (validateEmail(email)) {
+		xml(
+			`inc/manage-lists.inc.php?listId=${listId}&emailAddress=${email.value}&add-subowner`,
+			document.querySelector(
+				'.modal.additionalListOwner.modal-open div.modal-content form p'
+			)
+		);
+
+		// setTimeout(() => {
+		// 	xml(`my-lists.php`, document.querySelector('main'));
+		// }, 3000);
+	}
+}
+
 navHandler();
 var clonedDivsCount = 0;

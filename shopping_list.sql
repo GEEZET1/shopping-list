@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2020 at 06:19 PM
+-- Generation Time: Nov 28, 2020 at 07:47 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -39,6 +39,15 @@ BEGIN
     	`lists`
 	SET
     	`lists`.`last_edit` = CURRENT_TIMESTAMP;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_subowner` (IN `id_list` INT(11), IN `id_subowner` INT(11))  NO SQL
+BEGIN
+    SELECT COUNT(*) into @owner FROM list_owner WHERE list_owner.id_list = id_list AND list_owner.id_owner = id_subowner;
+
+    IF (@owner = 0) THEN
+        INSERT INTO list_owner(id_list, id_owner) VALUES(id_list, id_subowner);
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_article` (IN `id_list` INT(11), IN `id_article` INT(11))  NO SQL
@@ -371,11 +380,11 @@ CREATE TABLE `lists` (
 --
 
 INSERT INTO `lists` (`id_list`, `name`, `create_date`, `last_edit`) VALUES
-(1, 'admin@admin.com_moja lista', '2020-11-23 18:58:53', '2020-11-28 16:54:49'),
-(2, 'admin@admin.com_moja druga lista', '2020-11-23 18:59:31', '2020-11-28 17:03:26'),
-(9, 'admin@admin.com_aaa', '2020-11-28 16:33:42', '2020-11-28 16:54:49'),
-(15, 'admin@admin.com_litsa zakupowa ', '2020-11-28 16:50:36', '2020-11-28 16:54:49'),
-(16, 'krystian@gmail.com_moja lista', '2020-11-28 16:51:37', '2020-11-28 17:03:40');
+(1, 'admin@admin.com_moja lista', '2020-11-23 18:58:53', '2020-11-28 17:21:49'),
+(2, 'admin@admin.com_moja druga lista', '2020-11-23 18:59:31', '2020-11-28 17:21:49'),
+(9, 'admin@admin.com_aaa', '2020-11-28 16:33:42', '2020-11-28 17:21:49'),
+(15, 'admin@admin.com_litsa zakupowa ', '2020-11-28 16:50:36', '2020-11-28 17:22:06'),
+(16, 'krystian@gmail.com_moja lista', '2020-11-28 16:51:37', '2020-11-28 17:21:49');
 
 -- --------------------------------------------------------
 
@@ -438,16 +447,21 @@ INSERT INTO `list_articles` (`id_list`, `id_article`, `article_bought`, `article
 (1, 134, 1, 10.00),
 (1, 134, 1, 10.00),
 (1, 134, 1, 10.00),
-(15, 88, 0, NULL),
-(15, 88, 0, NULL),
-(15, 88, 0, NULL),
-(15, 88, 0, NULL),
-(15, 88, 0, NULL),
-(15, 116, 0, NULL),
-(15, 116, 0, NULL),
-(15, 116, 0, NULL),
-(15, 116, 0, NULL),
-(16, 12, 1, 123.45);
+(15, 88, 1, 999.99),
+(15, 88, 1, 999.99),
+(15, 88, 1, 999.99),
+(15, 88, 1, 999.99),
+(15, 88, 1, 999.99),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(16, 12, 1, 123.45),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98),
+(15, 116, 1, 4.98);
 
 -- --------------------------------------------------------
 
@@ -465,13 +479,14 @@ CREATE TABLE `list_owner` (
 --
 
 INSERT INTO `list_owner` (`id_list`, `id_owner`) VALUES
-(1, 1),
 (2, 1),
 (2, 3),
 (9, 1),
 (15, 1),
 (15, 3),
-(16, 3);
+(16, 3),
+(1, 1),
+(1, 3);
 
 -- --------------------------------------------------------
 
