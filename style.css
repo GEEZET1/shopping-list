@@ -1,0 +1,576 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+main {
+	min-height: 85vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+nav {
+	display: flex;
+	width: 100%;
+	height: 10vh;
+	margin: auto;
+	justify-content: center;
+	align-items: center;
+}
+
+nav #manage-articles,
+nav #create-list,
+nav #my-lists,
+nav #about,
+nav #logout,
+nav #create-account,
+nav #login {
+	width: 33%;
+	display: flex;
+	justify-content: space-around;
+	flex: 1;
+}
+
+nav #manage-articles h1,
+nav #create-list h1,
+nav #my-lists h1,
+nav #about h1,
+nav #logout h1,
+nav #create-account h1,
+nav #login h1 {
+	color: #5d2a42;
+}
+
+nav #manage-articles h1:hover,
+nav #create-list h1:hover,
+nav #my-lists h1:hover,
+nav #about h1:hover,
+nav #logout h1:hover,
+nav #create-account h1:hover,
+nav #login h1:hover {
+	cursor: pointer;
+}
+
+.manage-articles,
+.create-list,
+.create-account,
+.login-section,
+.my-lists {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-article,
+.delete-article,
+.add-list,
+.add-account,
+.login-form {
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.add-article div:nth-child(1),
+.delete-article div:nth-child(1),
+.add-list div:nth-child(1),
+.add-account div:nth-child(1),
+.login-form div:nth-child(1),
+.list-detail div:nth-child(1) p {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.list-detail div:nth-child(2) {
+	border-top-left-radius: 5px;
+}
+
+.list-detail .list-total-value {
+	display: flex;
+	width: 80%;
+	justify-content: right;
+}
+
+.list-detail .list-total-value p {
+	background: #ffdccc;
+	padding: 5px;
+	font-size: 12px;
+}
+
+.input-field,
+.submit-field,
+.list-name-field,
+.create-list-field,
+.list-owner-field,
+.email-address-field,
+.password-field,
+.create-account-field,
+.password-hint-field,
+.list-owners-hint-field,
+.login-field {
+	background: #ffdccc;
+	height: 50px;
+	width: 575px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	transition: all 0.5s ease;
+}
+
+.password-hint-field,
+.list-owners-hint-field {
+	background: none;
+	justify-content: center;
+}
+
+.password-hint-field,
+.list-owners-hint-field p {
+	font-size: 10px;
+}
+
+.password-hint-field {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.input-field i,
+.submit-field i,
+.list-name-field i,
+.create-list-field i,
+.list-owner-field i,
+.email-address-field i,
+.password-field i,
+.create-account-field i,
+.list-name i {
+	padding: 10px;
+}
+
+.input-field input,
+.submit-field p,
+.list-name-field input,
+.create-list-field p,
+.list-owner-field input,
+.email-address-field input,
+.password-field input,
+.create-account-field input,
+.login-field input,
+.list-article input {
+	background: none;
+	outline: none;
+	border: none;
+	flex: 1;
+	height: 100%;
+	color: #fb6376;
+}
+
+.modal.addArticleToList .modal-content div {
+	width: 700px;
+}
+
+.list-article input {
+	width: 100px;
+	color: black;
+}
+
+.list-article input[placeholder] {
+	text-align: right;
+}
+
+.list-article input:hover {
+	cursor: pointer;
+}
+
+.submit-field p,
+.create-list-field p {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.group-field {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.group-field p {
+	color: #fb6376;
+	font-size: 14px;
+}
+
+.submit-field,
+.create-list-field,
+.create-account-field,
+.login-field {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background: #fff9ec;
+}
+
+.create-account-field.invalid,
+.login-field.invalid {
+	background: rgb(168, 168, 168);
+	cursor: default;
+}
+
+.create-account-field.valid,
+.login-field.valid {
+	cursor: pointer;
+	background: #fff9ec;
+}
+
+.add-article .submit-field p:hover,
+.add-list .create-list-field:not(.div-disabled) p:hover,
+.add-account .create-account-field.valid input:hover,
+.login-section .login-field.valid input:hover,
+.modal.addArticleToList .submit-field:hover {
+	cursor: pointer;
+	background: #e1f9eb;
+}
+
+.delete-article .submit-field p:hover {
+	cursor: pointer;
+	background: #f9e1eb;
+}
+
+select {
+	appearance: none;
+	border: none;
+	background: #ffdccc;
+	color: #fb6376;
+	cursor: pointer;
+	text-align: center;
+	height: 100%;
+}
+
+.add-article select:nth-child(2) {
+	width: 90px;
+}
+
+.delete-article select {
+	width: 100%;
+}
+
+.modal.addArticleToList div.group-field:nth-child(3),
+.modal.addArticleToList div.group-field:nth-child(4),
+.modal.addArticleToList div.group-field:nth-child(5) {
+	visibility: hidden;
+}
+
+select:focus {
+	border: none;
+	outline: none;
+	appearance: none;
+}
+
+.fa-cart-plus,
+.fa-chevron-down,
+.fa-minus-square,
+.fa-plus,
+.fa-id-badge,
+.fa-user-plus,
+.fa-lock,
+.fa-user,
+.fa-eye,
+.fa-eye-slash,
+.fa-hand-pointer,
+.fa-shopping-basket,
+.fa-edit,
+.fa-times,
+.fa-plus-square,
+.fa-trash-alt {
+	color: #fb6376;
+}
+
+.fa-shopping-basket,
+.fa-edit,
+.fa-times,
+.fa-plus-square,
+.fa-trash-alt {
+	padding: 0 5px;
+}
+
+.fa-user-plus:hover,
+.fa-eye:hover,
+.fa-eye-slash:hover,
+.fa-edit:hover,
+.fa-shopping-basket:hover,
+.fa-edit:hover,
+.fa-times:hover,
+.fa-trash-alt:hover {
+	color: #c33c4c;
+	cursor: pointer;
+}
+
+.fa-plus-square {
+	padding: 15px;
+}
+
+.add-article-to-list:hover .fa-plus-square {
+	color: #e1f9eb;
+	cursor: pointer;
+}
+
+.fa-chevron-down {
+	position: relative;
+	left: -15px;
+}
+
+.modal.addArticleToList .modal-content .fa-chevron-down {
+	position: relative;
+	margin: 0px;
+}
+
+.fa-exclamation-triangle {
+	color: gold;
+	padding: 3px;
+}
+
+.modal.addArticleToList .modal-content .fas.fa-times {
+	position: absolute;
+	top: 25px;
+	left: 95%;
+}
+
+.modal.addArticleToList .modal-content input {
+	width: 20px;
+}
+
+section.create-list,
+section.manage-articles,
+section.my-lists,
+section.create-account,
+section.login-section,
+section.my-lists {
+	animation: fade-in 0.6s ease;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes modal-top-slide-in {
+	from {
+		opacity: 0;
+		top: -10vh;
+	}
+	to {
+		opacity: 1;
+		top: 15vh;
+	}
+}
+
+.modal {
+	display: none;
+}
+
+.modal-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-content p {
+	padding: 15px;
+}
+
+.modal-content i {
+	margin: 0 10px;
+}
+
+.modal-open {
+	display: flex;
+}
+
+.modal.warning,
+.modal.failure,
+.modal.success {
+	position: absolute;
+	animation: modal-top-slide-in 0.6s forwards;
+}
+
+.modal.warning .modal-content,
+.modal.failure .modal-content {
+	width: 300px;
+	height: 50px;
+	background: #fb6376;
+	color: #000000;
+	border-radius: 5px;
+}
+
+.modal.success .modal-content {
+	background: #e1f9eb;
+}
+
+.modal.confirmation .modal-content {
+	flex-direction: column;
+}
+
+.modal.addArticleToList,
+.modal.confirmation {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(0, 0, 0, 0.4);
+	justify-content: center;
+	align-items: center;
+}
+
+.modal.addArticleToList .modal-content,
+.modal.confirmation .modal-content {
+	background: #ffcdb2;
+	height: 60%;
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	padding: 15px;
+}
+
+.button-disabled {
+	pointer-events: none;
+	color: rgb(168, 168, 168);
+}
+
+.div-disabled {
+	pointer-events: none;
+	background: rgb(168, 168, 168);
+}
+
+.lists {
+	position: relative;
+	left: 15px;
+	top: 50%;
+	transform: translate(0, -50%);
+	max-width: 30%;
+}
+
+.my-lists .lists .list-name {
+	display: flex;
+	align-items: center;
+	color: #fb6376;
+}
+
+.my-lists .lists .list-name h1:hover {
+	color: #c33c4c;
+	cursor: pointer;
+}
+
+.my-lists .list-name h1:hover + i {
+	color: #c33c4c;
+}
+
+.list-detail {
+	width: 70%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.list-detail .list-name,
+.list-detail .list-articles,
+.list-detail .add-article-to-list {
+	background: rgb(255, 220, 204);
+	width: 80%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.list-detail .list-name {
+	cursor: default;
+}
+
+.list-detail .list-articles,
+.list-detail .add-article-to-list {
+	background: rgb(255, 200, 175);
+	display: flex;
+	flex-direction: column;
+}
+
+.list-detail .list-articles .list-article {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 10px;
+}
+
+.list-detail .list-articles .list-article:hover,
+.list-detail .add-article-to-list:hover {
+	background: rgb(255, 180, 146);
+	cursor: pointer;
+}
+
+.list-detail div:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.list-detail .list-articles .list-article .list-article-category {
+	font-size: 10px;
+}
+
+.list-detail .list-name h1 {
+	color: #c33c4c;
+}
+
+.list-name,
+.list-articles,
+.add-article-to-list {
+	animation: fade-in 0.6s ease;
+}
+
+.list-detail .list-name p {
+	display: flex;
+	flex-direction: column;
+	align-self: end;
+	font-size: 10px;
+	padding: 15px 10px;
+}
+
+.article-bought,
+.list-article.article-bought input {
+	color: grey;
+	text-decoration: line-through;
+	font-size: 14px;
+}
+
+.list-article.article-bought input:focus {
+	color: black;
+	text-decoration: none;
+}
+
+/* ukrycie strzalek w polu number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
