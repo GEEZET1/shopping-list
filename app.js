@@ -345,17 +345,21 @@ function addArticleToList(button) {
 	var listId = button.parentElement.parentElement.parentElement.previousElementSibling.lastElementChild.getAttribute(
 		'name'
 	);
-	var quanity = parseInt(inputs.children[4].children[0].value);
+	var quanity = parseFloat(inputs.children[4].children[0].value);
 
-	if (articleId == undefined || listId == undefined || quanity > 10) {
+	if (
+		articleId == undefined ||
+		listId == undefined ||
+		quanity > 100 ||
+		quanity < 0 ||
+		isNaN(quanity)
+	) {
 		showModalNotification('failure');
 	} else {
-		for (let index = 0; index < quanity; index++) {
-			xml(
-				`inc/manage-lists.inc.php?articleId=${articleId}&listId=${listId}&add-article-to-list`,
-				null
-			);
-		}
+		xml(
+			`inc/manage-lists.inc.php?articleId=${articleId}&listId=${listId}&quanity=${quanity}&add-article-to-list`,
+			null
+		);
 
 		showModalNotification('success');
 	}

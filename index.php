@@ -7,7 +7,7 @@ require_once 'inc/functions.inc.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet"> 
     <script src="https://kit.fontawesome.com/3f479ffa7c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 
@@ -60,6 +60,12 @@ require_once 'inc/functions.inc.php';
                 error_handler($error);
             };
         } ?>
+        <div class="intro">
+            <h1>Shopping</h1>
+            <h2>It's simple.</h2>
+            <hr>
+            <p>Pick product, add to list, manage prices & quanity.</p>
+        </div>
     </main>
     <script src="app.js"></script>
 </body>

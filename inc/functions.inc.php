@@ -125,14 +125,14 @@ function delete_article($article) {
     require 'config.inc.php';
 
     $sql = "DELETE FROM articles WHERE id_article = $article";
-
     mysqli_query($conn, $sql);
 };
 
 function display_articles() {
     require 'config.inc.php';
    
-    $result = mysqli_query($conn, "SELECT id_article, name FROM articles");
+    $sql = "SELECT id_article, name FROM articles";
+    $result = mysqli_query($conn, $sql);
 
     echo '<select name="article">';
     while($data=mysqli_fetch_row($result)) {
@@ -144,7 +144,8 @@ function display_articles() {
 function display_articles_select($categoryId) {
     require 'config.inc.php';
    
-    $result = mysqli_query($conn, "SELECT id_article, name FROM articles WHERE id_category = $categoryId");
+    $sql = "SELECT id_article, name FROM articles WHERE id_category = $categoryId";
+    $result = mysqli_query($conn, $sql);
 
     echo '<select name="article">';
     while($data=mysqli_fetch_row($result)) {
@@ -157,7 +158,8 @@ function display_articles_select($categoryId) {
 function display_articles_category() {
     require 'config.inc.php';
     
-    $result = mysqli_query($conn, "SELECT id_category, name FROM categories");
+    $sql = "SELECT id_category, name FROM categories";
+    $result = mysqli_query($conn, $sql);
 
     echo '<select name="category">';
     while($data=mysqli_fetch_row($result)) {
@@ -169,7 +171,8 @@ function display_articles_category() {
 function display_articles_category_select() {
     require 'config.inc.php';
     
-    $result = mysqli_query($conn, "SELECT id_category, name FROM categories");
+    $sql = "SELECT id_category, name FROM categories";
+    $result = mysqli_query($conn, $sql);
 
     echo '<select name="category">';
     while($data=mysqli_fetch_row($result)) {
@@ -181,7 +184,8 @@ function display_articles_category_select() {
 function display_articles_unit() {
     require 'config.inc.php';
     
-    $result = mysqli_query($conn, "SELECT id_unit, name FROM units");
+    $sql = "SELECT id_unit, name FROM units";
+    $result = mysqli_query($conn, $sql);
 
     echo '<select name="unit">';
     while($data=mysqli_fetch_row($result)) {
@@ -193,7 +197,8 @@ function display_articles_unit() {
 function display_units_select($articleId) {
     require 'config.inc.php';
     
-    $result = mysqli_query($conn, "CALL  get_unit_for_article($articleId)");
+    $sql = "CALL get_unit_for_article($articleId)";
+    $result = mysqli_query($conn, $sql);
 
     if ($data=mysqli_fetch_row($result)) {
         echo "<p name='$data[0]'>$data[1]</p>";
@@ -202,7 +207,6 @@ function display_units_select($articleId) {
 
 function add_list($list) {
     require 'config.inc.php';
-    // session_start();
     
     $listName = $_SESSION['email_address'].'_'.$list;
 
@@ -223,7 +227,8 @@ function add_lits_owners($list) {
     // wlasciciele
     foreach ($list as $owner => $value) {
         if (preg_match('/^owner[\d]$/', $owner) > 0) {
-            $result = mysqli_query($conn, "SELECT id_user FROM users WHERE email = '$value'");
+            $sql = "SELECT id_user FROM users WHERE email = '$value'";
+            $result = mysqli_query($conn, $sql);
 
             $data = mysqli_fetch_assoc($result);
             
@@ -367,14 +372,14 @@ function display_list_detail($list) {
     display_list_articles($list['listId']);
 };
 
-function update_article($article) {
+function update_article_price($article) {
     require 'config.inc.php';
 
     $listId = $article['listId'];
     $articleId = $article['articleId'];
     $articlePrice = $article['articlePrice'];
 
-    $sql = "CALL update_article($listId, $articleId, $articlePrice)";
+    $sql = "CALL update_article_price($listId, $articleId, $articlePrice)";
     mysqli_query($conn, $sql);
 };
 
@@ -384,7 +389,7 @@ function delete_article_from_list($list) {
     $listId = $list['listId'];
     $articleId = $list['articleId'];
 
-    $sql = "CALL delete_article($listId, $articleId)";;
+    $sql = "CALL delete_article($listId, $articleId)";
     mysqli_query($conn, $sql);
 };
 
@@ -393,16 +398,27 @@ function add_article_to_list($list) {
 
     $listId = $list['listId'];
     $articleId = $list['articleId'];
+    $quanity = $list['quanity'];
 
-    $sql = "CALL  add_article_to_list($listId, $articleId)";
-    mysqli_query($conn, $sql);
+    $sql = "SELECT check_if_article_is_on_list($articleId, $listId)";
+    $articleExists = mysqli_query($conn, $sql);
+    $articleExists = mysqli_fetch_row($articleExists)[0];
+
+    if ($articleExists != 0) {
+        // artykuł istnieje na liście
+        $sql = "CALL update_article_quanity($quanity, $listId, $articleId)";
+        mysqli_query($conn, $sql);
+    } else {
+        // artykuł nie istnieje na liście
+        $sql = "CALL add_article_to_list($listId, $articleId, $quanity)";
+        mysqli_query($conn, $sql);
+    };
 };
 
 function delete_list($listId) {
     require 'config.inc.php';
 
-    $sql = "CALL delete_list($listId)";
-    mysqli_query($conn, $sql);
+    mysqli_query($conn, "CALL delete_list($listId)");
 };
 
 function check_list_name($listName) {
@@ -424,11 +440,12 @@ function check_list_name($listName) {
 function add_subowner($listId, $email) {
     require 'config.inc.php';
 
-    $result = mysqli_query($conn, "SELECT id_user FROM users WHERE email = '$email'");
+    $sql = "SELECT id_user FROM users WHERE email = '$email'";
+
+    $result = mysqli_query($conn, $sql);
 
     if ($subowner = mysqli_fetch_array($result)) {
-        $sql = "CALL add_subowner($listId, $subowner[0])";
-        mysqli_query($conn, $sql);
+        mysqli_query($conn, "CALL add_subowner($listId, $subowner[0])");
         display_warning_message('Subowner added successfully.');
     } else {
         display_warning_message('Email not found. Make sure user have an account in our service.');

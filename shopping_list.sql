@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2020 at 07:47 PM
+-- Generation Time: Dec 04, 2020 at 08:49 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -28,12 +28,12 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_article_to_list` (IN `id_list` INT(11), IN `id_article` INT(11))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_article_to_list` (IN `id_list` INT(11), IN `id_article` INT(11), IN `quanity` FLOAT(6,2))  NO SQL
 BEGIN
     INSERT INTO 
-        `list_articles`(id_list, id_article)
+        `list_articles`(id_list, id_article, article_quanity)
     VALUES
-        (id_list, id_article);
+        (id_list, id_article, quanity);
         
 	UPDATE
     	`lists`
@@ -87,7 +87,7 @@ WHERE
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_list_value` (IN `id_list` INT(11))  NO SQL
 SELECT 
 	list_articles.id_list, 
-    sum(article_price) 
+    sum(article_price*article_quanity) 
 FROM 
 	list_articles 
 WHERE 
@@ -115,7 +115,7 @@ SELECT
     units.name as 'unit',
     if(list_articles.article_bought != 0,'true','false') as 'status',
     list_articles.article_price as 'price',
-    count(list_articles.id_article) as 'quanity'
+    list_articles.article_quanity as 'quanity'
 FROM 
 	lists, articles, units, list_articles, categories 
 WHERE 
@@ -127,7 +127,7 @@ WHERE
 GROUP BY
 	list_articles.id_article$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_article` (IN `id_list` INT(11), IN `id_article` INT(11), IN `article_price` FLOAT(6,2))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_article_price` (IN `id_list` INT(11), IN `id_article` INT(11), IN `article_price` FLOAT(6,2))  NO SQL
 BEGIN
     UPDATE 
         `list_articles` 
@@ -146,9 +146,30 @@ BEGIN
         `lists`.`id_list` = id_list;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_article_quanity` (IN `quanity` FLOAT(6,2), IN `listId` INT(11), IN `articleId` INT(11))  NO SQL
+BEGIN
+
+    UPDATE `list_articles` SET `article_quanity` = quanity WHERE `list_articles`.`id_list` = listId AND `list_articles`.`id_article` = articleId;
+
+    UPDATE `lists` SET `last_edit` = CURRENT_TIMESTAMP WHERE `lists`.`id_list` = listId;
+
+END$$
+
 --
 -- Functions
 --
+CREATE DEFINER=`root`@`localhost` FUNCTION `check_if_article_is_on_list` (`idArticle` INT(11), `idList` INT(11)) RETURNS TINYINT(1) NO SQL
+BEGIN
+
+    SELECT COUNT(*) into @articles FROM list_articles WHERE list_articles.id_article = idArticle AND list_articles.id_list = idList;
+
+    IF (@articles != 0) THEN
+        RETURN true;
+    ELSE
+        RETURN false;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` FUNCTION `check_list_name` (`list_name` VARCHAR(255) CHARSET utf8) RETURNS TINYINT(1) NO SQL
 BEGIN
     SELECT count(*) into @list FROM lists WHERE lists.name = list_name;
@@ -380,11 +401,11 @@ CREATE TABLE `lists` (
 --
 
 INSERT INTO `lists` (`id_list`, `name`, `create_date`, `last_edit`) VALUES
-(1, 'admin@admin.com_moja lista', '2020-11-23 18:58:53', '2020-11-28 17:21:49'),
-(2, 'admin@admin.com_moja druga lista', '2020-11-23 18:59:31', '2020-11-28 17:21:49'),
-(9, 'admin@admin.com_aaa', '2020-11-28 16:33:42', '2020-11-28 17:21:49'),
-(15, 'admin@admin.com_litsa zakupowa ', '2020-11-28 16:50:36', '2020-11-28 17:22:06'),
-(16, 'krystian@gmail.com_moja lista', '2020-11-28 16:51:37', '2020-11-28 17:21:49');
+(1, 'admin@admin.com_moja lista', '2020-11-23 18:58:53', '2020-12-04 19:14:51'),
+(2, 'admin@admin.com_moja druga lista', '2020-11-23 18:59:31', '2020-12-04 19:14:51'),
+(9, 'admin@admin.com_aaa', '2020-11-28 16:33:42', '2020-12-04 19:15:06'),
+(15, 'admin@admin.com_litsa zakupowa ', '2020-11-28 16:50:36', '2020-12-04 19:14:51'),
+(16, 'krystian@gmail.com_moja lista', '2020-11-28 16:51:37', '2020-12-04 19:14:51');
 
 -- --------------------------------------------------------
 
@@ -396,72 +417,23 @@ CREATE TABLE `list_articles` (
   `id_list` int(11) NOT NULL,
   `id_article` int(11) NOT NULL,
   `article_bought` tinyint(1) NOT NULL DEFAULT '0',
-  `article_price` float(6,2) DEFAULT NULL
+  `article_price` float(6,2) DEFAULT NULL,
+  `article_quanity` float(6,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `list_articles`
 --
 
-INSERT INTO `list_articles` (`id_list`, `id_article`, `article_bought`, `article_price`) VALUES
-(1, 95, 1, 2.00),
-(2, 54, 1, 4.50),
-(2, 32, 1, 3.00),
-(1, 89, 1, 1.45),
-(1, 90, 0, NULL),
-(1, 1, 0, NULL),
-(1, 155, 0, NULL),
-(1, 155, 0, NULL),
-(1, 155, 0, NULL),
-(1, 88, 1, 1.45),
-(1, 88, 1, 1.45),
-(1, 88, 1, 1.45),
-(1, 88, 1, 1.45),
-(1, 88, 1, 1.45),
-(1, 88, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(1, 86, 1, 1.45),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(2, 87, 1, 120.99),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(1, 134, 1, 10.00),
-(15, 88, 1, 999.99),
-(15, 88, 1, 999.99),
-(15, 88, 1, 999.99),
-(15, 88, 1, 999.99),
-(15, 88, 1, 999.99),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(16, 12, 1, 123.45),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98),
-(15, 116, 1, 4.98);
+INSERT INTO `list_articles` (`id_list`, `id_article`, `article_bought`, `article_price`, `article_quanity`) VALUES
+(1, 1, 1, 1.00, 0.23),
+(1, 3, 1, 1.00, 0.70),
+(1, 6, 1, 10.00, 1.78),
+(1, 1, 0, NULL, 15.00),
+(2, 127, 1, 1.00, 1.25),
+(2, 84, 0, NULL, 0.33),
+(2, 122, 0, NULL, 4.22),
+(9, 108, 1, 2.55, 100.00);
 
 -- --------------------------------------------------------
 
@@ -596,7 +568,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id_article` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id_article` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `categories`

@@ -28,7 +28,7 @@ require_once './inc/functions.inc.php';
                     </div>
 
                     <div class="group-field">
-                        <input type="number" value="1" min="1" step="1" max="10" placeholder="quanity">
+                        <input type="number" value="1" min="0.01" step="0.01" max="100" placeholder="quanity">
                     </div>
                 </div>
                 <div class="submit-field" onClick="addArticleToList(this)">

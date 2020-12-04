@@ -572,15 +572,54 @@ section.my-lists {
 	text-decoration: none;
 }
 
+.intro h1,
+.intro h2,
+.intro p {
+	font-weight: 200;
+	color: #c33c4c;
+	opacity: 0;
+}
+
+hr {
+	color: #e5989b;
+	opacity: 0;
+}
+
+.intro h1 {
+	font-size: 5rem;
+	animation: fade-in 1s forwards;
+}
+
+.intro h2 {
+	font-size: 3rem;
+	animation: fade-in 1s forwards 1s;
+}
+
+.intro hr {
+	animation: fade-in 0.1s forwards 1.5s, underline 1.5s forwards 1.5s;
+}
+
+.intro p {
+	padding: 10px 0px;
+	animation: fade-in 1s forwards 2.7s;
+}
+
+@keyframes underline {
+	0% {
+		width: 0%;
+	}
+	100% {
+		width: 60%;
+	}
+}
+
 /* ukrycie strzalek w polu number */
-/* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
 
-/* Firefox */
 input[type='number'] {
 	-moz-appearance: textfield;
 }

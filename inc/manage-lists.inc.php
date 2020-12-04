@@ -20,10 +20,10 @@ if (isset($_GET['listName']) && isset($_GET['create-list'])) {
 } else if (isset($_GET['listId']) && isset($_GET['show-list'])) {
     display_list_detail($_GET);
 } else if (isset($_GET['listId']) && isset($_GET['articleId']) && isset($_GET['articlePrice']) && isset($_GET['change-price'])) {
-    update_article($_GET);
+    update_article_price($_GET);
 } else if (isset($_GET['listId']) && isset($_GET['articleId']) && isset($_GET['delete-article-from-list'])) {
     delete_article_from_list($_GET);
-} else if (isset($_GET['listId']) && isset($_GET['articleId']) && isset($_GET['add-article-to-list'])) {
+} else if (isset($_GET['listId']) && isset($_GET['articleId']) && isset($_GET['quanity']) && isset($_GET['add-article-to-list'])) {
     if (check_if_field_is_empty($_GET)) {
         add_article_to_list($_GET);
     } else {
